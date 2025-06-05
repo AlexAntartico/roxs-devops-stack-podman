@@ -2,7 +2,6 @@
 services:
   prometheus:
     image: prom/prometheus:v3.4.0
-    container_name: roxs-prometheus
     restart: unless-stopped
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -18,14 +17,13 @@ services:
       - roxs-monitoring-network
       - roxs-app-network
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:9090/-/healthy"]
       interval: 30s
       timeout: 10s
       retries: 3
 
   grafana:
     image: grafana/grafana:12.0.1
-    container_name: roxs-grafana
     restart: unless-stopped
     environment:
       GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
@@ -55,7 +53,6 @@ services:
       retries: 3
   node-exporter:
     image: prom/node-exporter:v1.9.1
-    container_name: roxs-node-exporter
     restart: unless-stopped
     command:
       - '--path.procfs=/host/proc'

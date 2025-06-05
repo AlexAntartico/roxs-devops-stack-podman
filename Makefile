@@ -5,8 +5,8 @@
 .PHONY: help install up down restart logs status clean build push monitoring stop-monitoring health test backup
 
 # Variables
-DOCKER_COMPOSE = docker compose
-DOCKER_COMPOSE_MONITORING = docker compose -f docker-compose.monitoring.yml
+DOCKER_COMPOSE = podman-compose
+DOCKER_COMPOSE_MONITORING = podman-compose -f docker-compose.monitoring.yml
 PROJECT_NAME = roxs-devops-items
 BACKEND_IMAGE = roxsross12/devops-items:1.0.0-backend
 FRONTEND_IMAGE = roxsross12/devops-items:1.0.0-frontend
@@ -16,28 +16,28 @@ YELLOW = \033[1;33m
 RED = \033[0;31m
 NC = \033[0m 
 
-# Comando por defecto
-help: ## 📋 Mostrar esta ayuda
+# default commands
+help: ## 📋 Show this help message
 	@echo "$(GREEN)🚀 ROXS DevOps Project - Items Management$(NC)"
-	@echo "$(YELLOW)Comandos disponibles:$(NC)"
+	@echo "$(YELLOW)Available Commands:$(NC)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(YELLOW)Ejemplos de uso:$(NC)"
+	@echo "$(YELLOW)Use examples:$(NC)"
 	@echo "  make install    # Preparar el proyecto"
 	@echo "  make up         # Levantar aplicación"
 	@echo "  make monitoring # Levantar monitoreo"
 	@echo "  make logs       # Ver logs en tiempo real"
 
-install: ## 🔧 Preparar el entorno (crear redes, etc.)
-	@echo "$(GREEN)🔧 Preparando el entorno...$(NC)"
-	@docker network create app-network 2>/dev/null || echo "Red ya existe"
-	@docker network create roxs-monitoring-network 2>/dev/null || echo "Red de monitoreo ya existe"
-	@echo "$(GREEN)✅ Entorno preparado correctamente$(NC)"
+install: ## 🔧 Preparing Environment (create networks, etc.)
+	@echo "$(GREEN)🔧 Preparing Environment...$(NC)"
+	@podman network create app-network 2>/dev/null || echo "app-network already exists"
+	@podman network create roxs-monitoring-network 2>/dev/null || echo "roxs-monitoring-network already exists"
+	@echo "$(GREEN)✅ Success!!!  $(NC)"
 
-build: ## 🏗️  Construir las imágenes Docker
-	@echo "$(GREEN)🏗️  Construyendo imágenes...$(NC)"
+build: ## 🏗️  Build Docker images
+	@echo "$(GREEN)🏗️  building images...$(NC)"
 	@$(DOCKER_COMPOSE) build --no-cache
-	@echo "$(GREEN)✅ Imágenes construidas correctamente$(NC)"
+	@echo "$(GREEN)✅ Success!!! images correctly built  $(NC)"
 
 up: ## 🚀 Levantar la aplicación completa
 	@echo "$(GREEN)🚀 Levantando la aplicación...$(NC)"
@@ -75,7 +75,7 @@ status: ## 📊 Ver estado de los servicios
 	@$(DOCKER_COMPOSE) ps
 	@echo ""
 	@echo "$(YELLOW)Redes Docker:$(NC)"
-	@docker network ls | grep roxs
+	@podman network ls | grep roxs
 
 health: ## 🏥 Verificar salud de los servicios
 	@echo "$(GREEN)🏥 Verificando salud de los servicios...$(NC)"
@@ -86,7 +86,7 @@ health: ## 🏥 Verificar salud de los servicios
 	@curl -s http://localhost/health || echo "✅ Frontend disponible" || echo "❌ Frontend no disponible"
 	@echo ""
 	@echo "$(YELLOW)Database Health:$(NC)"
-	@docker exec db pg_isready -U postgres -d app && echo "✅ Database disponible" || echo "❌ Database no disponible"
+	@podman exec db pg_isready -U postgres -d app && echo "✅ Database disponible" || echo "❌ Database no disponible"
 
 monitoring: ## 📊 Levantar stack de monitoreo (Prometheus + Grafana)
 	@echo "$(GREEN)📊 Levantando stack de monitoreo...$(NC)"
@@ -124,27 +124,27 @@ clean: ## 🧹 Limpiar contenedores, volúmenes e imágenes
 	@echo "$(YELLOW)🧹 Limpiando recursos...$(NC)"
 	@$(DOCKER_COMPOSE) down -v --remove-orphans
 	@$(DOCKER_COMPOSE_MONITORING) down -v --remove-orphans
-	@docker system prune -f
+	@podman system prune -f
 	@echo "$(GREEN)✅ Limpieza completada$(NC)"
 
 clean-all: ## 🗑️  Limpieza completa (incluyendo imágenes)
 	@echo "$(RED)🗑️  Limpieza completa - ¡CUIDADO! Eliminará todas las imágenes$(NC)"
 	@read -p "¿Estás seguro? (y/N): " confirm && [ "$$confirm" = "y" ] || exit 1
 	@make clean
-	@docker rmi $(BACKEND_IMAGE) $(FRONTEND_IMAGE) 2>/dev/null || true
-	@docker image prune -a -f
+	@podman rmi $(BACKEND_IMAGE) $(FRONTEND_IMAGE) 2>/dev/null || true
+	@podman image prune -a -f
 	@echo "$(GREEN)✅ Limpieza completa realizada$(NC)"
 
 push: ## 📤 Subir imágenes a Docker Hub
 	@echo "$(GREEN)📤 Subiendo imágenes a Docker Hub...$(NC)"
-	@docker push $(BACKEND_IMAGE)
-	@docker push $(FRONTEND_IMAGE)
+	@podman push $(BACKEND_IMAGE)
+	@podman push $(FRONTEND_IMAGE)
 	@echo "$(GREEN)✅ Imágenes subidas correctamente$(NC)"
 
 backup: ## 💾 Hacer backup de la base de datos
 	@echo "$(GREEN)💾 Creando backup de la base de datos...$(NC)"
 	@mkdir -p backups
-	@docker exec db pg_dump -U postgres app > backups/backup_$(shell date +%Y%m%d_%H%M%S).sql
+	@podman exec db pg_dump -U postgres app > backups/backup_$(shell date +%Y%m%d_%H%M%S).sql
 	@echo "$(GREEN)✅ Backup creado en carpeta backups/$(NC)"
 
 restore: ## 📥 Restaurar backup de la base de datos
@@ -152,7 +152,7 @@ restore: ## 📥 Restaurar backup de la base de datos
 	@echo "Archivos disponibles:"
 	@ls -la backups/*.sql 2>/dev/null || echo "No hay backups disponibles"
 	@read -p "Nombre del archivo (ej: backup_20240101_120000.sql): " file && \
-	docker exec -i db psql -U postgres app < backups/$$file && \
+	podman exec -i db psql -U postgres app < backups/$$file && \
 	echo "$(GREEN)✅ Backup restaurado correctamente$(NC)"
 
 test: ## 🧪 Ejecutar tests básicos
@@ -193,13 +193,13 @@ ps: ## 📋 Ver contenedores activos
 	@$(DOCKER_COMPOSE_MONITORING) ps
 
 exec-backend: ## 🔧 Acceder al contenedor backend
-	@docker exec -it backend /bin/sh
+	@podman exec -it backend /bin/sh
 
 exec-db: ## 💾 Acceder al contenedor de base de datos
-	@docker exec -it db psql -U postgres app
+	@podman exec -it db psql -U postgres app
 
 exec-frontend: ## 🌐 Acceder al contenedor frontend
-	@docker exec -it frontend /bin/sh
+	@podman exec -it frontend /bin/sh
 
 # Comandos de desarrollo avanzado
 scale-backend: ## ⚡ Escalar backend (uso: make scale-backend REPLICAS=3)
@@ -207,17 +207,17 @@ scale-backend: ## ⚡ Escalar backend (uso: make scale-backend REPLICAS=3)
 
 update: ## 🔄 Actualizar imágenes y reiniciar
 	@echo "$(GREEN)🔄 Actualizando...$(NC)"
-	@docker-compose pull
+	@podman-compose pull
 	@make restart
 
 # Información del sistema
 info: ## ℹ️  Información del sistema
 	@echo "$(GREEN)ℹ️  Información del sistema:$(NC)"
-	@echo "Docker version: $(shell docker --version)"
-	@echo "Docker Compose version: $(shell docker-compose --version)"
+	@echo "Podman version: $(shell podman --version)"
+	@echo "Podman Compose version: $(shell podman-compose --version)"
 	@echo "Espacio en disco:"
 	@df -h . | tail -1
-	@echo "Redes Docker:"
-	@docker network ls | grep roxs
-	@echo "Volúmenes Docker:"
-	@docker volume ls | grep -E "(pgdata|prometheus|grafana)"
+	@echo "Redes Podman:"
+	@podman network ls | grep roxs
+	@echo "Volúmenes Podman:"
+	@podman volume ls | grep -E "(pgdata|prometheus|grafana)"
