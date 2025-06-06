@@ -43,7 +43,7 @@ up: ## 🚀 Levantar la aplicación completa
 	@echo "$(GREEN)🚀 Levantando la aplicación...$(NC)"
 	@$(DOCKER_COMPOSE) up -d
 	@echo "$(GREEN)✅ Aplicación iniciada correctamente$(NC)"
-	@echo "$(YELLOW)🌐 Frontend: http://localhost$(NC)"
+	@echo "$(YELLOW)🌐 Frontend: http://localhost:8080$(NC)"
 	@echo "$(YELLOW)🔧 Backend API: http://localhost:3000$(NC)"
 	@echo "$(YELLOW)📚 Documentación API: http://localhost:3000/docs$(NC)"
 
@@ -83,7 +83,7 @@ health: ## 🏥 Verificar salud de los servicios
 	@curl -s http://localhost:3000/health | jq . 2>/dev/null || curl -s http://localhost:3000/health || echo "❌ Backend no disponible"
 	@echo ""
 	@echo "$(YELLOW)Frontend Health:$(NC)"
-	@curl -s http://localhost/health || echo "✅ Frontend disponible" || echo "❌ Frontend no disponible"
+	@curl -s http://localhost:8080/health || echo "✅ Frontend disponible" || echo "❌ Frontend no disponible"
 	@echo ""
 	@echo "$(YELLOW)Database Health:$(NC)"
 	@podman exec db pg_isready -U postgres -d app && echo "✅ Database disponible" || echo "❌ Database no disponible"
@@ -161,7 +161,7 @@ test: ## 🧪 Ejecutar tests básicos
 	@curl -f http://localhost:3000/health >/dev/null 2>&1 && echo "✅ Backend OK" || echo "❌ Backend FAIL"
 	@curl -f http://localhost:3000/items >/dev/null 2>&1 && echo "✅ Items API OK" || echo "❌ Items API FAIL"
 	@echo "$(YELLOW)Testing Frontend...$(NC)"
-	@curl -f http://localhost/ >/dev/null 2>&1 && echo "✅ Frontend OK" || echo "❌ Frontend FAIL"
+	@curl -f http://localhost:8080/ >/dev/null 2>&1 && echo "✅ Frontend OK" || echo "❌ Frontend FAIL"
 	@echo "$(YELLOW)Testing Monitoring (si está activo)...$(NC)"
 	@curl -f http://localhost:9090 >/dev/null 2>&1 && echo "✅ Prometheus OK" || echo "⚠️  Prometheus no activo"
 	@curl -f http://localhost:3001 >/dev/null 2>&1 && echo "✅ Grafana OK" || echo "⚠️  Grafana no activo"
@@ -169,7 +169,7 @@ test: ## 🧪 Ejecutar tests básicos
 urls: ## 🌐 Mostrar todas las URLs disponibles
 	@echo "$(GREEN)🌐 URLs disponibles:$(NC)"
 	@echo "$(YELLOW)Aplicación Principal:$(NC)"
-	@echo "  🌐 Frontend:         http://localhost"
+	@echo "  🌐 Frontend:         http://localhost:8080"
 	@echo "  🔧 Backend API:      http://localhost:3000"
 	@echo "  📚 API Docs:         http://localhost:3000/docs"
 	@echo "  🏥 Health Check:     http://localhost:3000/health"

@@ -201,7 +201,7 @@ Después de ejecutar `make up` y `make monitoring`:
 
 | Servicio | URL | Credenciales |
 |----------|-----|--------------|
-| **Frontend** | http://localhost | - |
+| **Frontend** | http://localhost:8080 | - |
 | **Backend API** | http://localhost:3000 | - |
 | **API Docs** | http://localhost:3000/docs | - |
 | **Prometheus** | http://localhost:9090 | - |
@@ -209,7 +209,7 @@ Después de ejecutar `make up` y `make monitoring`:
 
 ### 📱 Usando la Aplicación
 
-1. **Accede al Frontend**: http://localhost
+1. **Accede al Frontend**: http://localhost:8080
 2. **Crea tu primer item**:
    - Nombre: "Mi primer item"
    - Descripción: "Esta es una prueba"
