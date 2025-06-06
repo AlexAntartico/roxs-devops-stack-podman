@@ -2,25 +2,24 @@
 
 ![](https://media.licdn.com/dms/image/v2/D4D16AQF4ND-cC_uxZg/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1731367727725?e=1753920000&v=beta&t=80SZ4IOx4V_VDcCBli7aFjYuMhzMos9SRFq8GnV8zc4)
 
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://docker.com)
-[![Podman](https://img.shields.io/badge/-Podman-892CA0?style=flat&logo=podman&logoColor=white)](https://podman.io/)
+[![Podman](https://img.shields.io/badge/Podman-Ready-blue?logo=docker)](https://podman.io/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?logo=postgresql)](https://postgresql.org)
 [![Prometheus](https://img.shields.io/badge/Prometheus-Monitoring-orange?logo=prometheus)](https://prometheus.io)
 [![Grafana](https://img.shields.io/badge/Grafana-Visualization-orange?logo=grafana)](https://grafana.com)
 
-> **Educational DevOps Project** created by **roxsross** using Docker, forked to Podmand and translated to english. Objective is to learn fundamental concepts to gain hands-on knowledge for development, containers, orchestration and monitoring.
+> **Educational DevOps Project** created by **roxsross** using Docker, forked to Podmand and translated to english. Objective is to learn fundamental concepts and hands-on knowledge on development, containers, orchestration and monitoring.
 
 ## 📸 Screenshots from ROXS environment
 
 <div align="center">
 
-| 📦 Aplicación Principal | 📋 Gestión de Items | 📊 Prometheus Metrics | 🏠 Grafana Home |
+| 📦 Main Appliction | 📋 Item Management | 📊 Prometheus Metrics | 🏠 Grafana Home |
 |:---:|:---:|:---:|:---:|
 | <img src="./docs/images/1.png" width="200"/> | <img src="./docs/images/2.png" width="200"/> | <img src="./docs/images/3.png" width="200"/> | <img src="./docs/images/4.png" width="200"/> |
-| *Sistema de gestión de items con FastAPI + PostgreSQL* | *CRUD completo con items creados y funcionalidad de edición* | *Métricas de servicios en Prometheus* | *Panel de bienvenida de Grafana* |
+| *Item Management System with FastAPI + PostgreSQL* | *Full CRUD with created items and edition capabilities* | *Service Metrics at  Prometheus* | *Grafana welcome panel* |
 
-| 📋 Dashboard List | 🚀 Dashboard Principal | 💾 Monitoreo Completo | 🐳 Pdman Pods |
+| 📋 Dashboard List | 🚀 Main Dashboard | 💾 Complete Monitoring | 🐳 Podman Pods |
 |:---:|:---:|:---:|:---:|
 | <img src="./docs/images/5.png" width="200"/> | <img src="./docs/images/6.png" width="200"/> | <img src="./docs/images/7.png" width="200"/> | <img src="./docs/images/8.png" width="200"/> |
 | *Lista de dashboards disponibles en Grafana* | *Dashboard principal con métricas de performance* | *Vista completa del monitoreo de DB e infraestructura* | *Stack completo ejecutándose en Podman* |
@@ -41,7 +40,7 @@
 - [Troubleshooting](#-troubleshooting)
 - [Contribuir](#-contribuir)
 
-## 🎯 Descripción
+## 🎯 Description
 
 Esta es una **aplicación fullstack de gestión de items** diseñada específicamente para **aprender DevOps**. Incluye:
 
@@ -52,7 +51,7 @@ Esta es una **aplicación fullstack de gestión de items** diseñada específica
 - **Métricas**: Instrumentación completa de la aplicación
 - **Automatización**: Makefile con comandos útiles
 
-### ✨ Características Principales
+### ✨ Main Characteristics
 
 - ✅ **CRUD completo** de items (Crear, Leer, Actualizar, Eliminar)
 - ✅ **Interfaz responsiva** y moderna
@@ -64,17 +63,17 @@ Esta es una **aplicación fullstack de gestión de items** diseñada específica
 - ✅ **Logs estructurados** para debugging
 - ✅ **Fácil escalabilidad** horizontal
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    ARQUITECTURA DEL SISTEMA             │
+│                    SYSTEM ARCHITECTURE                  │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐  │
 │  │   Frontend  │────│   Backend   │────│  PostgreSQL │  │
 │  │   (Nginx)   │    │  (FastAPI)  │    │     DB      │  │
-│  │   Port 80   │    │  Port 3000  │    │  Port 5432  │  │
+│  │   Port 8080 │    │  Port 3000  │    │  Port 5432  │  │
 │  └─────────────┘    └─────────────┘    └─────────────┘  │
 │         │                   │                           │
 │         │                   │                           │
@@ -91,28 +90,28 @@ Esta es una **aplicación fullstack de gestión de items** diseñada específica
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 🔄 Flujo de Datos
+### 🔄 Data Flow
 
 1. **Usuario** → Frontend (Nginx) → Backend (FastAPI) → PostgreSQL
 2. **Métricas** → Prometheus recolecta datos del Backend y Node Exporter
 3. **Visualización** → Grafana consulta Prometheus para mostrar dashboards
 
-## 📋 Requisitos
+## 📋 Requirements
 
-### Requisitos Mínimos
+### Minimum Requirements
 
 - **Podman**: 27+ 
 - **podman-compose**: 2.34+
 - **Make**: Para usar el Makefile (opcional)
 - **Sistema**: Linux, macOS o Windows con WSL2
 
-### Requisitos de Hardware
+### HW Requirements
 
 - **RAM**: 4GB mínimo (8GB recomendado)
 - **Disco**: 5GB libres
 - **CPU**: 2 cores mínimo
 
-### Verificar Requisitos
+### Preflight check
 
 ```bash
 # Verificar Docker
@@ -126,25 +125,25 @@ make --version
 docker system df
 ```
 
-## 🚀 Instalación Rápida
+## 🚀 Quick Installation
 
-### Opción 1: Usando Makefile (Recomendado)
+### Opción 1: Makefile (Recommended)
 
 ```bash
-# 1. Clonar el repositorio
-git clone https://github.com/roxsross/roxs-devops-stack
-cd roxs-devops-stack
+# 1. Clone Repo
+git clone https://github.com/roxsross/roxs-devops-stack-podman
+cd roxs-devops-stack-podman
 
-# 2. Preparar el entorno
+# 2. Environment setup
 make install
 
-# 3. Levantar la aplicación
+# 3. Launch application
 make up
 
-# 4. Verificar que todo funciona
+# 4. RFB
 make health
 
-# 5. Ver URLs disponibles
+# 5. See available URLs
 make urls
 ```
 
