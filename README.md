@@ -1,17 +1,17 @@
-# 🚀 DevOps Items Management - Proyecto  by RoxsRoss
+# 🚀 DevOps Items Management - Project by RoxsRoss, forked to Podman
 
 ![](https://media.licdn.com/dms/image/v2/D4D16AQF4ND-cC_uxZg/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1731367727725?e=1753920000&v=beta&t=80SZ4IOx4V_VDcCBli7aFjYuMhzMos9SRFq8GnV8zc4)
 
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://docker.com)
+[![Podman](https://img.shields.io/badge/-Podman-892CA0?style=flat&logo=podman&logoColor=white)](https://podman.io/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?logo=postgresql)](https://postgresql.org)
 [![Prometheus](https://img.shields.io/badge/Prometheus-Monitoring-orange?logo=prometheus)](https://prometheus.io)
 [![Grafana](https://img.shields.io/badge/Grafana-Visualization-orange?logo=grafana)](https://grafana.com)
 
-> **Proyecto educativo de DevOps** creado por **roxsross** para aprender conceptos fundamentales de desarrollo, contenedores, orquestación y monitoreo.
+> **Educational DevOps Project** created by **roxsross** using Docker, forked to Podmand and translated to english. Objective is to learn fundamental concepts to gain hands-on knowledge for development, containers, orchestration and monitoring.
 
-
-## 📸 Screenshots del Ecosistema ROXS
+## 📸 Screenshots from ROXS environment
 
 <div align="center">
 
@@ -20,14 +20,14 @@
 | <img src="./docs/images/1.png" width="200"/> | <img src="./docs/images/2.png" width="200"/> | <img src="./docs/images/3.png" width="200"/> | <img src="./docs/images/4.png" width="200"/> |
 | *Sistema de gestión de items con FastAPI + PostgreSQL* | *CRUD completo con items creados y funcionalidad de edición* | *Métricas de servicios en Prometheus* | *Panel de bienvenida de Grafana* |
 
-| 📋 Dashboard List | 🚀 Dashboard Principal | 💾 Monitoreo Completo | 🐳 Docker Containers |
+| 📋 Dashboard List | 🚀 Dashboard Principal | 💾 Monitoreo Completo | 🐳 Pdman Pods |
 |:---:|:---:|:---:|:---:|
 | <img src="./docs/images/5.png" width="200"/> | <img src="./docs/images/6.png" width="200"/> | <img src="./docs/images/7.png" width="200"/> | <img src="./docs/images/8.png" width="200"/> |
-| *Lista de dashboards disponibles en Grafana* | *Dashboard principal con métricas de performance* | *Vista completa del monitoreo de DB e infraestructura* | *Stack completo ejecutándose en Docker* |
+| *Lista de dashboards disponibles en Grafana* | *Dashboard principal con métricas de performance* | *Vista completa del monitoreo de DB e infraestructura* | *Stack completo ejecutándose en Podman* |
 
 </div>
 
-## 📋 Tabla de Contenidos
+## 📋 Content Table
 
 - [Descripción](#-descripción)
 - [Arquitectura](#-arquitectura)
@@ -47,7 +47,7 @@ Esta es una **aplicación fullstack de gestión de items** diseñada específica
 
 - **Backend**: API REST con FastAPI y PostgreSQL
 - **Frontend**: Interfaz web moderna con JavaScript vanilla
-- **Contenedores**: Todo dockerizado para facilitar el despliegue
+- **Contenedores**: Rootless Podman Containers
 - **Monitoreo**: Stack completo con Prometheus y Grafana
 - **Métricas**: Instrumentación completa de la aplicación
 - **Automatización**: Makefile con comandos útiles
@@ -101,8 +101,8 @@ Esta es una **aplicación fullstack de gestión de items** diseñada específica
 
 ### Requisitos Mínimos
 
-- **Docker**: 27+ 
-- **Docker Compose**: 2.34+
+- **Podman**: 27+ 
+- **podman-compose**: 2.34+
 - **Make**: Para usar el Makefile (opcional)
 - **Sistema**: Linux, macOS o Windows con WSL2
 
